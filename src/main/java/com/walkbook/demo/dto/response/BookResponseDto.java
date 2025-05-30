@@ -1,10 +1,7 @@
 package com.walkbook.demo.dto.response;
 
 import com.walkbook.demo.domain.Book;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BookResponseDto {
     private Long id;
     private String isbn;
