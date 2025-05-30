@@ -5,6 +5,7 @@ import com.walkbook.demo.domain.Category;
 import com.walkbook.demo.dto.request.BookRequestDto;
 import com.walkbook.demo.dto.response.ApiResponse;
 import com.walkbook.demo.dto.response.BookResponseDto;
+import com.walkbook.demo.dto.response.CategoryResponseDto;
 import com.walkbook.demo.service.BookService;
 import com.walkbook.demo.service.CategoryService;
 import com.walkbook.demo.util.ResponseUtil;
