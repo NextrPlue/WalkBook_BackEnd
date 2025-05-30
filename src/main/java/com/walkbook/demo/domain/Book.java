@@ -33,6 +33,9 @@ public class Book {
     @Column(nullable = false)
     private String publisher;
 
+    @Column(nullable = false)
+    private String description;
+
     private String coverUrl;
 
     @Column(nullable = false)
