@@ -24,9 +24,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("카테고리를 찾을 수 없습니다."));
+        Category category = getCategory(id);
         return convertToDto(category);
+    }
+
+    @Override
+    public Category getCategory(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("카테고리를 찾을 수 없습니다."));
     }
 
     private CategoryResponseDto convertToDto(Category category) {
