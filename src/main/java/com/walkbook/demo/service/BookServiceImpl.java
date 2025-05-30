@@ -9,6 +9,9 @@ import com.walkbook.demo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.walkbook.demo.error.ExceptionCode.BOOK_NOT_FOUND;
 
 @Service
@@ -62,6 +65,13 @@ public class BookServiceImpl implements BookService{
             book.setCategory(category);
         }
         return book;
+    }
+
+    @Override
+    public List<BookResponseDto> getAllBooks() {
+        return bookRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
 

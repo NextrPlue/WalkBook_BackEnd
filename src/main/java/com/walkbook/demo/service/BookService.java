@@ -4,6 +4,8 @@ import com.walkbook.demo.domain.Book;
 import com.walkbook.demo.dto.request.BookRequestDto;
 import com.walkbook.demo.dto.response.BookResponseDto;
 
+import java.util.List;
+
 public interface BookService {
     void saveBook(Book book);
 
@@ -14,5 +16,7 @@ public interface BookService {
     BookResponseDto convertToDto(Book book);
 
     Book updateBook(BookRequestDto dto, Book book);
+
+    List<BookResponseDto> getAllBooks();
 
 }
