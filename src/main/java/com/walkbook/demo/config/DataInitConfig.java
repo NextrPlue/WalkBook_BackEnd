@@ -1,12 +1,17 @@
 package com.walkbook.demo.config;
 
+import com.walkbook.demo.domain.Book;
 import com.walkbook.demo.domain.Category;
+import com.walkbook.demo.error.BusinessException;
+import com.walkbook.demo.error.ExceptionCode;
+import com.walkbook.demo.repository.BookRepository;
 import com.walkbook.demo.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Configuration
@@ -14,6 +19,7 @@ import java.util.List;
 public class DataInitConfig {
 
     private final CategoryRepository categoryRepository;
+    private final BookRepository bookRepository;
 
     @Bean
     public ApplicationRunner initCategoryData() {
@@ -36,4 +42,57 @@ public class DataInitConfig {
             }
         };
     }
+
+    @Bean
+    public ApplicationRunner initBookData(){
+        return args -> {
+            if (bookRepository.count() == 0) {
+                Category literature = categoryRepository.findById(1L).orElse(null);
+                Category selfDev = categoryRepository.findById(2L).orElse(null);
+                Category science = categoryRepository.findById(4L).orElse(null);
+
+                if (literature == null || selfDev == null || science == null) {
+                    throw new BusinessException(ExceptionCode.CATEGORY_EMPTY);
+                }
+
+                List<Book> books = List.of(
+                        Book.builder()
+                                .isbn("9788998139766")
+                                .title("나미야 잡화점의 기적")
+                                .author("히가시노 게이고")
+                                .publisher("현대문학")
+                                .description("편지를 통해 고민을 상담하는 신비한 잡화점 이야기")
+                                .coverUrl("https://example.com/cover1.jpg")
+                                .publicationTime(LocalDate.of(2012, 3, 15))
+                                .category(literature)
+                                .build(),
+
+                        Book.builder()
+                                .isbn("9788901249485")
+                                .title("아주 작은 습관의 힘")
+                                .author("제임스 클리어")
+                                .publisher("비즈니스북스")
+                                .description("습관 형성과 변화의 과학을 설명한 자기계발서")
+                                .coverUrl("https://example.com/cover2.jpg")
+                                .publicationTime(LocalDate.of(2019, 1, 10))
+                                .category(selfDev)
+                                .build(),
+
+                        Book.builder()
+                                .isbn("9788932920194")
+                                .title("코스모스")
+                                .author("칼 세이건")
+                                .publisher("사이언스북스")
+                                .description("우주와 생명의 기원을 설명한 과학 고전")
+                                .coverUrl("https://example.com/cover3.jpg")
+                                .publicationTime(LocalDate.of(2001, 11, 5))
+                                .category(science)
+                                .build()
+                );
+
+                bookRepository.saveAll(books);
+            }
+        };
+    }
+
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.walkbook.demo.error.ExceptionCode.CATEGORY_NOT_FOUND;
+import static com.walkbook.demo.error.ExceptionCode.CATEGORY_EMPTY;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategory(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(CATEGORY_EMPTY));
     }
 
     private CategoryResponseDto convertToDto(Category category) {
