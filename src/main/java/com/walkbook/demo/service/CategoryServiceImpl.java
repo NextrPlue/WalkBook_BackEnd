@@ -1,0 +1,39 @@
+package com.walkbook.demo.service;
+
+import com.walkbook.demo.domain.Category;
+import com.walkbook.demo.dto.response.CategoryResponseDto;
+import com.walkbook.demo.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CategoryServiceImpl implements CategoryService {
+
+    private final CategoryRepository categoryRepository;
+
+    @Override
+    public List<CategoryResponseDto> getAllCategories() {
+        return categoryRepository.findAll().stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    @Override
+    public CategoryResponseDto getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("카테고리를 찾을 수 없습니다."));
+        return convertToDto(category);
+    }
+
+    private CategoryResponseDto convertToDto(Category category) {
+        return CategoryResponseDto.builder()
+                .categoryId(category.getCategoryId())
+                .categoryName(category.getCategoryName())
+                .categoryDescription(category.getCategoryDescription())
+                .build();
+    }
+}
