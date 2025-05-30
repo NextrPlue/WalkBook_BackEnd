@@ -3,15 +3,20 @@ package com.walkbook.demo.service;
 import com.walkbook.demo.domain.Book;
 import com.walkbook.demo.dto.request.BookRequestDto;
 import com.walkbook.demo.dto.response.BookResponseDto;
-import com.walkbook.demo.domain.Book;
 
-import java.util.*;
+import java.util.List;
 
 public interface BookService {
     void saveBook(Book book);
-    Book getBook(Long bookId);
-    void deleteBook(Long bookId);
-    List<BookResponseDto> getAllBooks();
 
+    Book getBook(Long bookId);
+
+    void deleteBook(Long bookId);
+
+    BookResponseDto convertToDto(Book book);
+
+    Book updateBook(BookRequestDto dto, Book book);
+
+    List<BookResponseDto> getAllBooks();
 
 }
