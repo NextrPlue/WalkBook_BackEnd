@@ -1,6 +1,5 @@
 package com.walkbook.demo.error;
 
-
 import lombok.Getter;
 
 @Getter
