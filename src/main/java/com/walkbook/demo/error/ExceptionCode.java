@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 public enum ExceptionCode {
-    BOOK_NOT_FOUND(404, "BOOK_002", "해당되는 id 의 책을 찾을 수 없습니다."),
+    CATEGORY_EMPTY(404, "CATEGORY_001", "카테고리 DB가 비어져있습니다."),
+    BOOK_NOT_FOUND(404, "BOOK_001", "해당되는 id 의 책을 찾을 수 없습니다."),
 
     NULL_POINT_ERROR(404, "G010", "NullPointerException 발생"),
 
