@@ -12,6 +12,7 @@ import com.walkbook.demo.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +20,22 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
+
+
+    @GetMapping("/{bookId}")
+    public ResponseEntity<ApiResponse<BookResponseDto>> getBook(@PathVariable Long bookId) {
+        Book book = bookService.getBook(bookId);
+        return ResponseEntity.ok(
+                new ApiResponse<>("success", "도서 상세 조회 성공", new BookResponseDto(book))
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<BookResponseDto>>> getAllBooks() {
+        return ResponseEntity.ok(
+                ResponseUtil.success("도서 목록 조회 성공", bookService.getAllBooks())
+        );
+    }
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<BookResponseDto>> createBook(@RequestBody BookRequestDto requestDto){
