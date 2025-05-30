@@ -59,6 +59,12 @@ public class BookController {
         return ResponseEntity.ok(ResponseUtil.success("도서 수정 완료", new BookResponseDto(book)));
     }
 
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<ApiResponse<Void>> deleteBook(@PathVariable Long bookId) {
+        bookService.deleteBook(bookId);
+        return ResponseEntity.ok(ResponseUtil.success("도서 삭제 완료", null));
+    }
+
 
 
 }

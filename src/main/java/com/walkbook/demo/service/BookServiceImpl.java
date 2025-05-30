@@ -22,4 +22,10 @@ public class BookServiceImpl implements BookService{
     public Book getBook(Long bookId) {
         return bookRepository.findById(bookId).orElseThrow(() -> new BusinessException(BOOK_NOT_FOUND));
     }
+
+    @Override
+    public void deleteBook(Long bookId) {
+        bookRepository.findById(bookId).orElseThrow(() -> new BusinessException(BOOK_NOT_FOUND));
+        bookRepository.deleteById(bookId);
+    }
 }
