@@ -351,3 +351,9 @@ java -jar build/libs/demo-0.0.1-SNAPSHOT.jar
 - **Java 17**: 프로그래밍 언어
 - **Gradle 8.14**: 빌드 도구
 - **Lombok**: 코드 생성 자동화
+
+<br>
+
+## 시연 영상
+
+https://github.com/user-attachments/assets/92e5927b-fc12-4838-a824-fb697b0e6ddf
