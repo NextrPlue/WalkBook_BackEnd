@@ -36,6 +36,7 @@ public class Book {
     @Column(nullable = false)
     private String description;
 
+    @Column(columnDefinition = "TEXT")
     private String coverUrl;
 
     @Column(nullable = false)
