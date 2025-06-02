@@ -144,13 +144,25 @@ WalkBook은 **AI 기반 도서 커버 이미지 생성 기능을 포함한 도�
 
 > **HTTP 메서드별 적절한 용도 사용**과 **리소스 중심의 URL 설계**로 직관적인 API를 제공합니다.
 
-### 📌 데이터 검증 및 예외 처리
+### 📌 예외 처리 일관성 확보 및 오류 응답 통합
 
-> **GlobalExceptionHandler**를 통한 전역 예외 처리와 **일관된 응답 형식**으로 안정적인 API를 제공합니다.
+> GlobalExceptionHandler 를 활용한 전역 예외 처리 구조 설계하였습니다.
+> 
+> BusinessException, ExceptionCode, ErrorResponse 클래스를 통해 예외 메시지 및 상태 코드를 통일성 있게 관리합니다.
 
-### 📌 JPA 연관관계 매핑
+### 📌 공통 응답 포맷 제공 
 
-> **@ManyToOne** 관계를 통한 도서-카테고리 연관관계 매핑으로 정규화된 데이터 구조를 구현했습니다.
+> ResponseUtil 클래스를 별도로 설계해 success(), error() 메서드로 표준화된 응답 객체 (ApiResponse)를 생성하도록 구현하였습니다.
+> 
+> API 응답이 status, message, data 형식을 따르도록 통일되어 프론트엔드 측에서도 예측 가능한 응답 처리가 가능합니다.
+
+### 📌 테스트 코드 작성 
+
+> 컨트롤러 단위의 @WebMvcTest 기반 테스트로 API 응답과 예외 처리를 검증합니다.
+> 
+> Mock 객체를 직접 주입하고 공통 응답 포맷 메서드(expectSuccessResponse,expectErrorResponse)를 작성해 테스트 코드의 가독성과 재사용성을 높였습니다. 
+> 
+> 정상 및 예외 시나리오를 테스트해 실제 서비스 수준의 안정성과 신뢰성 확보하였습니다.
 
 <br>
 
