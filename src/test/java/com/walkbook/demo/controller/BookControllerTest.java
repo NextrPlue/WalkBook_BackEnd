@@ -22,9 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import static org.mockito.BDDMockito.given;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -66,6 +68,50 @@ class BookControllerTest {
         book = requestTestDto.toEntity(category);
         createdAt = Timestamp.valueOf("2025-05-30 05:48:44");
         updatedAt = Timestamp.valueOf("2025-06-02 01:47:18");
+    }
+
+    @Test
+    @DisplayName("도서 전체 조회 API 테스트")
+    void getAllBooks_success() throws Exception {
+        List<BookResponseDto> all_books = List.of(
+                BookResponseDto.builder()
+                        .id(1L).isbn("1111").title("책1").author("저자1")
+                        .publisher("출판사1").description("설명1").coverUrl("http://image1.com")
+                        .publicationTime(LocalDate.of(2020, 1, 1)).categoryId(1L)
+                        .createdAt(createdAt)
+                        .updatedAt(updatedAt)
+                        .build(),
+                BookResponseDto.builder()
+                        .id(2L).isbn("2222").title("책2").author("저자2")
+                        .publisher("출판사2").description("설명2").coverUrl("http://image2.com")
+                        .publicationTime(LocalDate.of(2021, 1, 1)).categoryId(2L)
+                        .createdAt(createdAt)
+                        .updatedAt(updatedAt)
+                        .build()
+        );
+
+        given(bookService.getAllBooks()).willReturn(all_books);
+
+        mockMvc.perform(get("/api/books"))
+                .andExpectAll(expectSuccessListResponse("도서 목록 조회 성공", all_books));
+
+        System.out.println("getAllBooks_success 테스트 완료");
+    }
+
+    @Test
+    @DisplayName("특정 조회 API 테스트")
+    void getBook_success() throws Exception {
+        Long bookId = 1L;
+        book.setId(bookId);
+        book.setCreatedAt(createdAt);
+        book.setUpdatedAt(updatedAt);
+
+        given(bookService.getBook(bookId)).willReturn(book);
+
+        mockMvc.perform(get("/api/books/{bookId}", bookId))
+                .andExpectAll(expectSuccessResponse("도서 상세 조회 성공", requestTestDto, bookId));
+
+        System.out.println("getBook_success 테스트 성공");
     }
 
     @Test
@@ -160,6 +206,27 @@ class BookControllerTest {
                 .updatedAt(updatedAt)
                 .build();
     }
+
+    // get_allbooks API 테스트 시 성공일때 Response 반환 형태
+    private ResultMatcher[] expectSuccessListResponse(String message, List<BookResponseDto> list) {
+        ResultMatcher[] baseMatchers = new ResultMatcher[] {
+                status().isOk(),
+                jsonPath("$.status").value("success"),
+                jsonPath("$.message").value(message),
+                jsonPath("$.data.length()").value(list.size())
+        };
+
+        ResultMatcher[] fieldMatchers = new ResultMatcher[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            fieldMatchers[i] = jsonPath("$.data[" + i + "].title").value(list.get(i).getTitle());
+        }
+
+        ResultMatcher[] all = new ResultMatcher[baseMatchers.length + fieldMatchers.length];
+        System.arraycopy(baseMatchers, 0, all, 0, baseMatchers.length);
+        System.arraycopy(fieldMatchers, 0, all, baseMatchers.length, fieldMatchers.length);
+        return all;
+    }
+
 
     // 등록, 수정 API 테스트 시 성공일때 Response 반환 형태
     private ResultMatcher[] expectSuccessResponse(String message, BookRequestDto dto, long id) {
