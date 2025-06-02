@@ -33,7 +33,7 @@ public class Book {
     @Column(nullable = false)
     private String publisher;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @Column(columnDefinition = "TEXT")
