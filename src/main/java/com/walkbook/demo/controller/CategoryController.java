@@ -7,7 +7,6 @@ import com.walkbook.demo.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 
 @RestController
@@ -17,7 +16,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     // 전체 조회
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<ApiResponse<List<CategoryResponseDto>>> getAllCategories() {
         List<CategoryResponseDto> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(

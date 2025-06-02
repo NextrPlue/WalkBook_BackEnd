@@ -5,7 +5,6 @@ import com.walkbook.demo.domain.Category;
 import com.walkbook.demo.dto.request.BookRequestDto;
 import com.walkbook.demo.dto.response.ApiResponse;
 import com.walkbook.demo.dto.response.BookResponseDto;
-import com.walkbook.demo.dto.response.CategoryResponseDto;
 import com.walkbook.demo.service.BookService;
 import com.walkbook.demo.service.CategoryService;
 import com.walkbook.demo.util.ResponseUtil;
@@ -21,7 +20,6 @@ public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
-
     @GetMapping("/{bookId}")
     public ResponseEntity<ApiResponse<BookResponseDto>> getBook(@PathVariable Long bookId) {
         Book book = bookService.getBook(bookId);
@@ -30,7 +28,7 @@ public class BookController {
         );
     }
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<ApiResponse<List<BookResponseDto>>> getAllBooks() {
         return ResponseEntity.ok(
                 ResponseUtil.success("도서 목록 조회 성공", bookService.getAllBooks())
