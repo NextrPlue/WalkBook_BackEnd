@@ -47,6 +47,8 @@ public class BookServiceImpl implements BookService{
                 .coverUrl(book.getCoverUrl())
                 .publicationTime(book.getPublicationTime())
                 .categoryId(book.getCategory().getCategoryId())
+                .createdAt(book.getCreatedAt())
+                .updatedAt(book.getUpdatedAt())
                 .build();
     }
 

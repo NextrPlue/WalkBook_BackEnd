@@ -20,7 +20,6 @@ public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
-
     @GetMapping("/{bookId}")
     public ResponseEntity<ApiResponse<BookResponseDto>> getBook(@PathVariable Long bookId) {
         Book book = bookService.getBook(bookId);
@@ -29,7 +28,7 @@ public class BookController {
         );
     }
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<ApiResponse<List<BookResponseDto>>> getAllBooks() {
         return ResponseEntity.ok(
                 ResponseUtil.success("도서 목록 조회 성공", bookService.getAllBooks())
